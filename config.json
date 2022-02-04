@@ -1,0 +1,15 @@
+{
+  "database" : {
+    "host": "***",
+    "port": "***",
+    "username": "***",
+    "password": "***",
+    "db": "***"
+  },
+  "telegram" : {
+    "token" : "***",
+    "chat": "****"
+  },
+  "debug": true,
+  "sleep" : "3"
+}
