@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    strapidb:
+        image: mysql:5.7
+        restart: always
+        volumes:
+            - /your_path/mysql:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=***
+            - MYSQL_PASSWORD=***
+            - MYSQL_DATABASE=***
+            - MYSQL_USER=***
+        networks:
+            - strapi-app-network
+    strapi:
+        image: strapi/strapi
+        restart: unless-stopped
+        volumes:
+            - /your_path/strapi:/srv/app
+        ports:
+            - '1337:1337'
+        depends_on:
+            - strapidb
+        networks:
+            - strapi-app-network
+    parser:
+        image: golang:alpine
+        volumes:
+            - /your_path/goRssParser:/go/src/goRssParser
+        command:  sh -c "cd /go/src/goRssParser && go run main.go"
+        depends_on:
+            - strapidb
+        networks:
+            - strapi-app-network
+networks:
+    strapi-app-network:
+        driver: bridge
